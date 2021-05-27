@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head><!-- <script src="/j/out"></script> -->
+    <script src="/socket.io/socket.io.js"></script><!-- <script src="/j/barewebber"></script> -->
+    <title>Массив промисов</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Ilya Gosudarev">
+    <link rel="stylesheet" href="/css/board2">
+    <link rel="stylesheet" href="/css/highcss_atom">
+</head>
+<body>
+<script src="/j/dblttl"></script>
+<script src="/high.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<button>Поехали</button>
+<ol id="values">
+    <li>10</li>
+    <li>20</li>
+    <li>30</li>
+</ol>
+<ol id="urls">
+    <li>https://kodaktor.ru/api/m/</li>
+    <li>https://kodaktor.ru/api/MS2/</li>
+    <li>https://kodaktor.ru/api/MS3/</li>
+</ol>
+<script>
+    let result = '';
+    const valuesOl = document.getElementById("values");
+    const nodes = valuesOl.children
+    var values = []
+    for (let elem of nodes) {
+        value = elem.innerText // получение конкретного value из <li>
+        if (value) {
+            values.push(value); // добавление в массив values
+        }
+    }
+
+    const urlsOl = document.getElementById("urls");
+    const nodesUrls = urlsOl.children
+    var urls = []
+    for (let elem of nodesUrls) {
+        text = elem.innerText // получение конкретного url из <li>
+        if (value) {
+            urls.push(text); // добавление в массив urls
+        }
+    }
+
+    document
+        .querySelector('button')
+        .addEventListener('click',
+            async ({target: t}) => {
+                var answer = ""
+                for (i = 0; i < urls.length; i++) {
+                    values[i] = values[i] + '/' + answer// Добавление ответа предыдущего запроса
+                    let api = new URL(values[i], urls[i])
+                    answer = await fetch(api).then((response) => {
+                        switch (response.status) {
+                            case 200: // Если статус ответа 200, то можем брать значение
+                                return response.text();
+                            case 404:
+                                throw response;
+                        }
+                    }).then((temp) => {
+                        let html = document.createElement('temp');
+                        html.innerHTML = temp
+                        return html.getElementsByTagName('span')[0].innerText // получение ответа из элемента span
+                    })
+                    result = result + ' ' + answer
+                }
+                t.textContent = `Результат: ${result}`;
+            }
+        );
+
+</script>
+<pre><code>{
+let result = '';
+    const valuesOl = document.getElementById("values");
+    const nodes = valuesOl.children
+    var values = []
+    for (let elem of nodes) {
+        value = elem.innerText // получение конкретного value из li
+        if (value) {
+            values.push(value); // добавление в массив values
+        }
+    }
+
+    const urlsOl = document.getElementById("urls");
+    const nodesUrls = urlsOl.children
+    var urls = []
+    for (let elem of nodesUrls) {
+        text = elem.innerText // получение конкретного url из li
+        if (value) {
+            urls.push(text); // добавление в массив urls
+        }
+    }
+
+    document
+        .querySelector('button')
+        .addEventListener('click',
+            async ({target: t}) => {
+                var answer = ""
+                for (i = 0; i < urls.length; i++) {
+                    values[i] = values[i] + '/' + answer// Добавление ответа предыдущего запроса
+                    let api = new URL(values[i], urls[i])
+                    answer = await fetch(api).then((response) => {
+                        switch (response.status) {
+                            case 200: // Если статус ответа 200, то можем брать значение
+                                return response.text();
+                            case 404:
+                                throw response;
+                        }
+                    }).then((temp) => {
+                        let html = document.createElement('temp');
+                        html.innerHTML = temp
+                        return html.getElementsByTagName('span')[0].innerText // получение ответа из элемента span
+                    })
+                    result = result + ' ' + answer
+                }
+                t.textContent = `Результат: ${result}`;
+            }
+        );
+
+}</code></pre>
+
+<script>{
+    Array.from(document.querySelectorAll('pre code'), e => e.parentNode.appendChild(document.createElement('script')).appendChild(document.createTextNode(e.textContent)));
+}</script>
+
+</body>
+</html>
+
+<!-- https://gist.github.com/gossoudarev/d89906ad8fb8f04a486c08408c12a69d -->

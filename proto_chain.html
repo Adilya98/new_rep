@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head><script src="/j/out"></script><script src="/socket.io/socket.io.js"></script><!-- <script src="/j/barewebber"></script> -->
+    <title>Задание «цепочка прототипов»</title><meta charset="utf-8"><meta name="author" content="Ilya Gosudarev"><link rel="stylesheet" href="/css/board2"><link rel="stylesheet" href="/css/highcss_atom">
+</head>
+<body>
+<script src="/j/dblttl"></script> <script src="/high.js"></script> <script>hljs.initHighlightingOnLoad();</script>
+<pre class="task">
+Импортируйте (с помощью директивы require или import) объект o3 под именем obj из модуля, код которого находится по адресу
+ https://kodaktor.ru/j/protochain    или   https://kodaktor.ru/j/protochain2
+<b>определите цепочку прототипов этого объекта и экспортируйте результат в качестве массива имён этих прототипа</b>.
+
+<i>В случае если это задание из теста, вопрос: сколько ненулевых прототипов в цепочке?</i>
+    </pre>
+
+<hr>
+
+<pre class="task">
+
+Вы также можете импортировать это задание из npm-пакета.
+
+Создайте проект и выполните yarn add goss_proto
+
+I. В REPL или в старом стиле
+const { o3 } = require('goss_proto');
+
+II. В файле-модуле (не забыв о "type":"module" в package.json)
+import o3 from 'goss_proto';
+
+
+   </pre>
+
+<hr>
+<hr>
+<pre><code>{
+ const person = { fname: 'Elias' };
+ Reflect.setPrototypeOf(person, { lname: 'Goss' });
+ Out.slog(person);       // у объекта одно собственное свойство
+ Out.slog(person.lname); // из прототипа
+}</code></pre>
+<hr>
+<!--Код находится в файле main.js-->
+<pre><code>{
+import protochain from 'goss_proto'
+var a=protochain.o3
+var array = []
+while (Object.getPrototypeOf(a) != null) {
+    const proto = Object.getPrototypeOf(a) //берем прототип у a
+    console.log(proto.name)
+    a = proto
+    array.push(proto.name)
+}
+// В цепочке 3 ненулевых прототипа
+console.log(array)
+export {array}
+
+}</code></pre>
+<script>{Array.from(document.querySelectorAll('pre code'),e=>e.parentNode.appendChild(document.createElement('script')).appendChild(document.createTextNode(e.textContent)));}</script>
+</body>
+</html>

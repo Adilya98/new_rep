@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="/j/out"></script>
+<head>
+    <title>FUNC-007 Рекрсивные функции</title>
+    <meta charset="UTF-8">
+    <meta name="author" content="Ilya Gosudarev">
+</head>
+<body>
+<script src="/j/dblttl"></script>
+<script>{
+    const sec = a => 1 + a;
+    const add = (a, b) => (b == 0) ? a : sec(add(a, b - 1));
+    const mpy = (a, b) => (b == 1) ? a : add(a, mpy(a, b - 1));
+    const pwr = (a, b) => (b == 1) ? a : mpy(a, pwr(a, b - 1))
+//Out.log(pwr(2, 14)) //При значении b = 14 происходит переполнение стека
+    const free_call = (a, n) => { //Функции вывода дерева вызовов
+        let st = "";
+        for (let i = 0; i < n; i++) {
+            st += a + " * ";
+            Out.log(st + "pwr(" + a + "," + (n - i - 1) + ")")
+        }
+    }
+    free_call(2, 13);
+
+//Далее идут переделанные функции для подсчета кол-ва их вызовов
+// var count_call_sec = 0;
+// var count_call_add = 0;
+// var count_call_mpy = 0;
+// const sec = a => {
+//     count_call_sec += 1;
+//     return (1 + a)
+// };
+// const add = (a, b) => {
+//     count_call_add += 1;
+//     return (b == 0) ? a : sec(add(a, b - 1))
+// };
+// const mpy = (a, b) => {
+//     count_call_mpy += 1;
+//     return (b == 1) ? a : add(a, mpy(a, b - 1))
+// };
+// Out.log(pwr(2, 13))
+// Out.log("Количество вызовов sec:",count_call_sec);
+// Out.log("Количество вызовов add:",count_call_add);
+// Out.log("Количество вызовов mpy:",count_call_mpy);
+
+
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "task2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "test": "node ./main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "goss_proto": "^1.0.0",
+    "yarn": "^1.22.10"
+  }
+}
